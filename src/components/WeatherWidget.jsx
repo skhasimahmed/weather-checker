@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../assets/css/WeatherWidget.module.css";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -7,9 +7,9 @@ import axios from "axios";
 
 const WeatherWidget = () => {
   const BASE_PATH_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
-  const BASE_PATH_GEO = "http://api.openweathermap.org/geo/1.0/direct";
+  const BASE_PATH_GEO = "https://api.openweathermap.org/geo/1.0/direct";
   const API_KEY = "6c96feab2d79020ffa8dd898a968beb8";
-  const ICON_URL = "http://openweathermap.org/img/w/";
+  const ICON_URL = "https://openweathermap.org/img/w/";
 
   const [city, setCity] = useState("");
   const [showCityError, setShowSetCityError] = useState(false);
@@ -120,9 +120,8 @@ const WeatherWidget = () => {
         <h1 className={styles.weather_heading}>Check Weather</h1>
         <form onSubmit={weatherFormSubmitHandler}>
           <div
-            className={`${styles.input_div} ${
-              showCityError ? styles.mark_error : ""
-            }`}
+            className={`${styles.input_div} ${showCityError ? styles.mark_error : ""
+              }`}
           >
             <input
               type="text"
