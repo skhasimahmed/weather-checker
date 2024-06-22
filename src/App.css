@@ -3,11 +3,13 @@
   /* margin: 0 auto; */
   padding: 2rem;
   text-align: center;
+  height: auto;
 }
 
 body{
   background: linear-gradient(135deg, #1B8AF1, #B58DED);
   width: 100%;
+  font-family: Mulish, Helvetica Neue, Helvetica, Arial, sans-serif;
   text-align: center;
 }
 
@@ -46,4 +48,13 @@ body{
 
 .read-the-docs {
   color: #888;
+}
+
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

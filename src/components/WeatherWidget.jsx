@@ -7,7 +7,7 @@ import axios from "axios";
 
 const WeatherWidget = () => {
   const BASE_PATH_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
-  const BASE_PATH_GEO = "https://api.openweathermap.org/geo/1.0/direct";
+  // const BASE_PATH_GEO = "https://api.openweathermap.org/geo/1.0/direct";
   const API_KEY = "6c96feab2d79020ffa8dd898a968beb8";
   const ICON_URL = "https://openweathermap.org/img/w/";
 
@@ -24,7 +24,7 @@ const WeatherWidget = () => {
 
     setShowLoader(true);
 
-    if (validateForm()) getLatLongFromCity(city);
+    if (validateForm()) getCurrentWeatherByCity(city);
     else setShowLoader(false);
   };
 
@@ -43,7 +43,7 @@ const WeatherWidget = () => {
       setResult(null);
     } else if (!cityNameRegex.test(cityValue)) {
       cityError = true;
-      cityErrorMessage = "Invalid city name.";
+      cityErrorMessage = "Invalid city format. Please enter a valid city name.";
     }
 
     setShowSetCityError(cityError);
@@ -53,24 +53,25 @@ const WeatherWidget = () => {
 
     return true;
   };
+  //   let URL = `${BASE_PATH_GEO}?q=${city}&limit=5&appid=${API_KEY}`;
+  //   axios
+  //     .get(URL)
+  //     .then((response) => {
+  //       console.log(response);
+  //       // console.log(response.data[0].lat, response.data[0].lon);
+  //       getCurrentWeatherByLatLong(response.data[0].lat, response.data[0].lon);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setShowLoader(false);
+  //       setShowSetCityError(true);
+  //       setCityErrorMessage(error.message);
+  //     });
+  // };
 
-  const getLatLongFromCity = (city) => {
-    let URL = `${BASE_PATH_GEO}?q=${city}&limit=1&appid=${API_KEY}`;
-    axios
-      .get(URL)
-      .then((response) => {
-        console.log(response.data[0].lat, response.data[0].lon);
-        getCurrentWeatherByLatLong(response.data[0].lat, response.data[0].lon);
-      })
-      .catch((error) => {
-        setShowLoader(false);
-        setShowSetCityError(true);
-        setCityErrorMessage("Inavlid city name.");
-      });
-  };
+  const getCurrentWeatherByCity = (city) => {
+    let URL = `${BASE_PATH_WEATHER}?q=${city}&units=metric&appid=${API_KEY}`
 
-  const getCurrentWeatherByLatLong = (lat, lon) => {
-    let URL = `${BASE_PATH_WEATHER}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
     axios.get(URL).then((response) => {
       let responseData = response.data,
         data = {
@@ -92,10 +93,12 @@ const WeatherWidget = () => {
           currentWeatherIcon: `${ICON_URL}${responseData.weather[0].icon}.png`,
         };
 
-      console.log(response);
-
       setResult(data);
       setShowLoader(false);
+    }).catch((error) => {
+      setShowLoader(false);
+      setShowSetCityError(true);
+      setCityErrorMessage(error.message);
     });
   };
 
@@ -117,11 +120,12 @@ const WeatherWidget = () => {
   return (
     <>
       <div className={styles.weather_form_body}>
+        {/* <AutoCompleteCity /> */}
         <h1 className={styles.weather_heading}>Check Weather</h1>
         <form onSubmit={weatherFormSubmitHandler}>
           <div
             className={`${styles.input_div} ${showCityError ? styles.mark_error : ""
-              }`}
+              }`} style={{ textAlign: 'center', margin: "10px auto" }}
           >
             <input
               type="text"
@@ -134,7 +138,7 @@ const WeatherWidget = () => {
           </div>
 
           {showCityError && (
-            <div>
+            <div style={{ marginTop: "-5px" }}>
               <p className={styles.error_message}>{cityErrorMessage}</p>
             </div>
           )}
@@ -143,71 +147,79 @@ const WeatherWidget = () => {
             <input
               type="submit"
               value="CHECK WEATHER"
+              style={{ textAlign: 'center', margin: "10px auto" }}
               className={styles.get_weather_btn}
             />
           )}
 
           {showLoader && (
-            <button disabled className={styles.loader_btn}>
+            <button disabled className={styles.loader_btn} style={{ textAlign: 'center', width: "250px", margin: "10px auto" }}>
               <BeatLoader color="#fff" />
             </button>
           )}
         </form>
 
-        {result && (
-          <div style={{ marginTop: "100px" }}>
-            <h2 style={{ color: "black" }}>
-              Weather in{" "}
-              <span style={{ color: "white" }}>
-                {result.cityName}, {result.countryShortName}
-              </span>
-            </h2>
-            <div>
-              <p style={{ color: "white", margin: "5px" }}>{result.dateTime}</p>
-              <p
-                style={{ color: "white", fontSize: "28px", fontWeight: "bold" }}
-              >
+
+      </div>
+      {result && (
+        <div className={styles.result_div}>
+          <h2 style={{ color: "black" }}>
+            Weather in{" "}
+            <span style={{ color: "white" }}>
+              {result.cityName}, {result.countryShortName}
+            </span>
+          </h2>
+          <div style={{ color: "#888" }}>
+            <p style={{ color: "white", margin: "5px" }}>{result.dateTime}</p>
+            <div
+              style={{
+                color: "#161515",
+
+                display: "inline-flex"
+              }}
+            >
+              <div style={{ margin: "10px auto" }}>
+                <img
+                  style={{ height: "75px", width: "75px" }}
+                  src={result.currentWeatherIcon}
+                  alt={result.currentWeatherMessage}
+                /></div>{" "}
+              <div style={{
+                fontSize: "64px",
+                fontWeight: "",
+              }}>
                 {result.temperature
                   ? `${Math.floor(result.temperature)}°C`
                   : "NA"}
+              </div>
+            </div>
+
+            <div style={{ margin: "-15px" }}>
+              <p style={{ textTransform: "capitalize", fontWeight: "", color: "rgb(22, 21, 21)" }}>
+                {result.currentWeatherMessage
+                  ? result.currentWeatherDescription
+                  : "NA"}
               </p>
-              <p style={{ margin: "5px" }}>
+              <p>Feels Like: {result.feelsLike ? `${Math.floor(result.feelsLike)}°C` : `NA`}</p>
+              <p style={{ margin: "15px" }}>
                 {result.temperatureMax
-                  ? `Max: ${Math.floor(result.temperatureMax)}°C`
+                  ? `High ${Math.floor(result.temperatureMax)}°C`
                   : "NA"}{" "}
                 |{" "}
                 {result.temperatureMin
-                  ? `Min: ${Math.floor(result.temperatureMin)}°C`
+                  ? `Low ${Math.floor(result.temperatureMin)}°C`
                   : "NA"}
               </p>
-
-              <div
-                style={{
-                  margin: "auto",
-                  display: "inline-flex",
-                  textAlign: "center",
-                }}
-              >
-                <img
-                  style={{ height: "50px", width: "50px" }}
-                  src={result.currentWeatherIcon}
-                  alt={result.currentWeatherMessage}
-                />{" "}
-                <p style={{ textTransform: "capitalize" }}>
-                  {result.currentWeatherMessage
-                    ? result.currentWeatherDescription
-                    : "NA"}
-                </p>
-              </div>
-              <p style={{ margin: "5px" }}>
+              <p style={{ margin: "15px" }}>
                 {result.windSpeed
                   ? `Wind Speed: ${result.windSpeed}km/h`
                   : "NA"}
               </p>
             </div>
+
           </div>
-        )}
-      </div>
+        </div >
+      )}
     </>
   );
 };
