@@ -1,13 +1,13 @@
 #root {
   max-width: 1280px;
-  /* margin: 0 auto; */
   padding: 2rem;
   text-align: center;
   height: auto;
 }
 
-body{
-  background: linear-gradient(135deg, #1B8AF1, #B58DED);
+body {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 0, 1) 8%, rgba(36, 150, 173, 1) 100%);
   width: 100%;
   font-family: Mulish, Helvetica Neue, Helvetica, Arial, sans-serif;
   text-align: center;
@@ -20,9 +20,11 @@ body{
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -31,6 +33,7 @@ body{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -50,11 +53,10 @@ body{
   color: #888;
 }
 
-
 /* Change the white to any color */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
 }

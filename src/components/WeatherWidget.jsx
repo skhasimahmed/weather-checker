@@ -160,16 +160,15 @@ const WeatherWidget = () => {
             </button>
           )}
         </form>
-
-
       </div>
+
       {result && (
         <div className={styles.result_div}>
           <h2 style={{ color: "black" }}>
             Weather in{" "} <br />
-              <span style={{ color: "white" }}>
-                {result.cityName}, {result.countryShortName}
-              </span>
+            <span style={{ color: "white" }}>
+              {result.cityName}, {result.countryShortName}
+            </span>
           </h2>
           <div style={{ color: "#888" }}>
             <p style={{ color: "white", margin: "5px" }}>{result.dateTime}</p>
@@ -218,10 +217,21 @@ const WeatherWidget = () => {
                   : "NA"}
               </p>
             </div>
-
           </div>
         </div >
       )}
+
+      <div className={styles.footer}>
+        <footer className="">
+          <p>&copy;
+            {(new Date().getFullYear())}&nbsp;<strong><a href=""
+              style={{ textDecoration: "none", fontWeight: "bold", color: "white" }}> Weather Checker </a></strong>
+            | Developed by
+            <strong><a href="https://www.thecreativeweb.co.in/"
+              style={{ textDecoration: "none", fontWeight: "bold", color: "white" }}> Sekh Hasim Ahmed</a></strong>
+          </p>
+        </footer>
+      </div>
     </>
   );
 };
