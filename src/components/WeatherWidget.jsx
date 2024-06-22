@@ -144,12 +144,14 @@ const WeatherWidget = () => {
           )}
 
           {!showLoader && (
-            <input
-              type="submit"
-              value="CHECK WEATHER"
-              style={{ textAlign: 'center', margin: "10px auto" }}
-              className={styles.get_weather_btn}
-            />
+            <div>
+              <input
+                type="submit"
+                value="CHECK WEATHER"
+                style={{ textAlign: 'center', margin: "10px auto" }}
+                className={styles.get_weather_btn}
+              />
+            </div>
           )}
 
           {showLoader && (
@@ -164,10 +166,10 @@ const WeatherWidget = () => {
       {result && (
         <div className={styles.result_div}>
           <h2 style={{ color: "black" }}>
-            Weather in{" "}
-            <span style={{ color: "white" }}>
-              {result.cityName}, {result.countryShortName}
-            </span>
+            Weather in{" "} <br />
+              <span style={{ color: "white" }}>
+                {result.cityName}, {result.countryShortName}
+              </span>
           </h2>
           <div style={{ color: "#888" }}>
             <p style={{ color: "white", margin: "5px" }}>{result.dateTime}</p>
@@ -194,8 +196,8 @@ const WeatherWidget = () => {
               </div>
             </div>
 
-            <div style={{ margin: "-15px" }}>
-              <p style={{ textTransform: "capitalize", fontWeight: "", color: "rgb(22, 21, 21)" }}>
+            <div style={{ margin: "-30px" }}>
+              <p style={{ textTransform: "capitalize", fontWeight: "bold", color: "rgb(22, 21, 21)" }}>
                 {result.currentWeatherMessage
                   ? result.currentWeatherDescription
                   : "NA"}
